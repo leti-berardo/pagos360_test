@@ -1,44 +1,58 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
+  Button,
   Card,
   CardContent,
   Checkbox,
-  FormControl,
   FormControlLabel,
   InputAdornment,
+  Stack,
   TextField,
   Typography,
-  Stack,
-  Button,
 } from "@mui/material";
+import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
-import styles from "./paymentRequestForms.module.scss";
-import { addDays } from "date-fns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
+import format from "date-fns/format";
+
+import { getPaymentRequestPayload } from "../../services/utils.services";
+import PaymentService from "../../services/payment.service";
+import styles from "./paymentRequestForms.module.scss";
 
 const PaymentForm: React.FC = () => {
-  const [sendByMail, setSendByMail] = useState<boolean>(false);
+  const [concept, setConcept] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [concepto, setConcepto] = useState<string>("");
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [totalPago, setTotalPago] = useState<string>("");
-  const [nombrePagador, setNombrePagador] = useState<string>("");
   const [formErrors, setFormErrors] = useState<any>({});
+  const [payerName, setPayerName] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [sendByMail, setSendByMail] = useState<boolean>(false);
+  const [totalPyment, setTotalPayment] = useState<number>(0);
 
   const minDate = dayjs();
+  const paymentService = new PaymentService();
+
+  const requestPaymentLink = async () => {
+    const payload = getPaymentRequestPayload({
+      concept,
+      totalPyment,
+      payerName,
+      selectedDate: format(new Date(selectedDate), "dd/MM/YYY"),
+    });
+
+    paymentService.getPaymentRequest({});
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     // Basic form validation
     const errors: any = {};
-    if (!concepto) errors.concepto = "Concepto is required";
+    if (!concept) errors.concepto = "Concepto is required";
     if (!selectedDate) errors.date = "Date is required";
-    if (!totalPago) errors.totalPago = "Total is required";
-    if (!nombrePagador) errors.nombrePagador = "Nombre del Pagador is required";
+    if (!totalPyment) errors.totalPago = "Total is required";
+    if (!payerName) errors.nombrePagador = "Nombre del Pagador is required";
     if (sendByMail && !email) errors.email = "Email is required";
 
     if (Object.keys(errors).length > 0) {
@@ -47,22 +61,26 @@ const PaymentForm: React.FC = () => {
     }
 
     // Handle form submission here
-    console.log("Form submitted:", {
-      sendByMail,
-      email,
-      concepto,
-      selectedDate,
-      totalPago,
-      nombrePagador,
-    });
+    console.log(
+      "Form submitted:",
+      {
+        sendByMail,
+        email,
+        concepto: concept,
+        selectedDate,
+        totalPago: totalPyment,
+        nombrePagador: payerName,
+      },
+      format(new Date(selectedDate), "dd/MM/YYY")
+    );
 
     // Reset form and errors
     setFormErrors({});
     setEmail("");
-    setConcepto("");
+    setConcept("");
     setSelectedDate(null);
-    setTotalPago("");
-    setNombrePagador("");
+    setTotalPayment(0);
+    setPayerName("");
   };
 
   return (
@@ -93,8 +111,8 @@ const PaymentForm: React.FC = () => {
           <TextField
             label="Concepto del Pago"
             fullWidth
-            value={concepto}
-            onChange={(e) => setConcepto(e.target.value)}
+            value={concept}
+            onChange={(e) => setConcept(e.target.value)}
             error={!!formErrors.concepto}
             helperText={formErrors.concepto}
             margin="normal"
@@ -105,6 +123,7 @@ const PaymentForm: React.FC = () => {
               value={selectedDate}
               onChange={(newDate) => setSelectedDate(newDate)}
               minDate={minDate}
+              format="DD/MM/YYYY"
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -115,34 +134,47 @@ const PaymentForm: React.FC = () => {
               margin="normal"
             />
           </LocalizationProvider>
-          <TextField
-            label="Total del Pago"
-            type="number"
-            InputProps={{
-              endAdornment: <InputAdornment position="end">USD</InputAdornment>,
+          <CurrencyTextField
+            label="Amount"
+            variant="standard"
+            value={totalPyment}
+            currencySymbol="$"
+            minimumValue="0"
+            outputFormat="string"
+            decimalCharacter="."
+            digitGroupSeparator=","
+            onChange={(e) =>
+              setTotalPayment(e.target.value ? parseInt(e.target.value) : 0)
+            }
+          />
+          {/* <TextField
+            label=""
+            type="text"
+            inputProps={{
+              inputMode: "numeric",
+              pattern: "^[.0-9]*$",
             }}
-            value={totalPago}
-            onChange={(e) => setTotalPago(e.target.value)}
+            value={totalPyment}
+            onChange={(e) =>
+              setTotalPayment(e.target.value ? parseInt(e.target.value) : 0)
+            }
             error={!!formErrors.totalPago}
             helperText={formErrors.totalPago}
             fullWidth
             margin="normal"
-          />
+          /> */}
           <TextField
             label="Nombre del Pagador"
             fullWidth
-            value={nombrePagador}
-            onChange={(e) => setNombrePagador(e.target.value)}
+            value={payerName}
+            onChange={(e) => setPayerName(e.target.value)}
             error={!!formErrors.nombrePagador}
             helperText={formErrors.nombrePagador}
             margin="normal"
           />
           <Stack direction="row" spacing={2}>
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="info">
               Submit
-            </Button>
-            <Button type="reset" variant="outlined" color="primary">
-              Reset
             </Button>
           </Stack>
         </form>

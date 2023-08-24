@@ -39,30 +39,30 @@ export default class BaseService {
     }
   }
 
-//   protected async post<T>(url: string, data: any): Promise<T> {
-//     try {
-//       const response = await this.axiosInstance.post<T>(url, data);
-//       return response.data;
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
+  //   protected async post<T>(url: string, data: any): Promise<T> {
+  //     try {
+  //       const response = await this.axiosInstance.post<T>(url, data);
+  //       return response.data;
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  //   }
 
-//   protected async put<T>(url: string, data: any): Promise<T> {
-//     try {
-//       const response = await this.axiosInstance.put<T>(url, data);
-//       return response.data;
-//     } catch (error) {
-//       throw error;
-//     }
-//   }
+  //   protected async put<T>(url: string, data: any): Promise<T> {
+  //     try {
+  //       const response = await this.axiosInstance.put<T>(url, data);
+  //       return response.data;
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  //   }
 
-//   protected async delete<T>(url: string): Promise<T> {
-//     try {
-//       const response = await this.axiosInstance.delete<T>(url);
-//       return response.data;
-//     } catch (error) {
-//       throw error;
-//     }
-  }
+  //   protected async delete<T>(url: string): Promise<T> {
+  //     try {
+  //       const response = await this.axiosInstance.delete<T>(url);
+  //       return response.data;
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  // }
 }

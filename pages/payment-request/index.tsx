@@ -1,3 +1,3 @@
-import PaymentRequest from "./payment-request";
+import { PaymentRequest } from "./payment-request";
 
 export default PaymentRequest;

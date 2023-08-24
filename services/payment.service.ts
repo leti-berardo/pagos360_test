@@ -10,9 +10,9 @@ export default class PaymentService extends BaseService {
     super(baseUrl, apiKey);
   }
 
-  async getPaymentRequest() {
+  async getPaymentRequest(payload) {
     const paymentRequestEndpoint =
       constants.API_ENDPOINTS.CREATE_PAYMENT_REQUEST;
-    return this.get<any>(paymentRequestEndpoint);
+    return this.get<any>(paymentRequestEndpoint, payload);
   }
 }
