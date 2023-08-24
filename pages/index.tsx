@@ -8,26 +8,34 @@ import styles from "../styles/Home.module.scss";
 
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>PayLet</title>
-        <link rel="icon" href="/saving.png" />
-      </Head>
-
+    <div className={styles.Home}>
       <main>
-        <span className="material-symbols-outlined">savings</span>
-        <h1 className={styles.title}>PayLet</h1>
+        <div className={styles.Home_head}>
+          <span className="material-symbols-outlined">savings</span>
+          <h1 className={styles.title}>PayLet</h1>
+        </div>
 
-        <Card sx={{ maxWidth: 345 }}>
+        <Card
+          className={styles.Home_card}
+          sx={{
+            maxWidth: 345,
+            borderRadius: "5px",
+          }}
+        >
           <CardActionArea>
-            <Link href="/payment-request" className={styles.card}>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Lizard
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
+            <Link href="/payment-request" className={styles.Home_card_link}>
+              <CardContent
+                style={{
+                  padding: "2rem",
+                }}
+              >
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                  marginBottom="0"
+                >
+                  Crear link de pago
                 </Typography>
               </CardContent>
             </Link>

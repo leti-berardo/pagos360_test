@@ -1,0 +1,29 @@
+.Home {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem;
+  background-color: lightgray;
+
+  &_ {
+    &head {
+      text-align: center;
+    }
+    &card {
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 5rem;
+
+      &_ {
+        &link {
+          text-align: center;
+          text-decoration: none;
+          color: black;
+        }
+      }
+    }
+  }
+}
