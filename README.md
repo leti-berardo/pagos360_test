@@ -1,1 +1,1 @@
-# pagos360_test
+This is a starter template for [Learn Next.js](https://nextjs.org/learn).
