@@ -22,13 +22,13 @@ import PaymentService from "../../services/payment.service";
 import styles from "./paymentRequestForms.module.scss";
 
 const PaymentForm: React.FC = () => {
-  const [concept, setConcept] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [concept, setConcept] = useState("");
+  const [email, setEmail] = useState("");
   const [formErrors, setFormErrors] = useState<any>({});
-  const [payerName, setPayerName] = useState<string>("");
+  const [payerName, setPayerName] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [sendByMail, setSendByMail] = useState<boolean>(false);
-  const [totalPyment, setTotalPayment] = useState<number>(0);
+  const [totalPyment, setTotalPayment] = useState(0);
 
   const minDate = dayjs();
   const paymentService = new PaymentService();
@@ -38,10 +38,12 @@ const PaymentForm: React.FC = () => {
       concept,
       totalPyment,
       payerName,
-      selectedDate: format(new Date(selectedDate), "dd/MM/YYY"),
+      selectedDate: format(new Date(selectedDate), "dd-MM-YYY"),
     });
 
-    paymentService.getPaymentRequest({});
+    paymentService.getPaymentRequest(payload).then((response) => {
+      console.log(response);
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -61,18 +63,7 @@ const PaymentForm: React.FC = () => {
     }
 
     // Handle form submission here
-    console.log(
-      "Form submitted:",
-      {
-        sendByMail,
-        email,
-        concepto: concept,
-        selectedDate,
-        totalPago: totalPyment,
-        nombrePagador: payerName,
-      },
-      format(new Date(selectedDate), "dd/MM/YYY")
-    );
+    requestPaymentLink();
 
     // Reset form and errors
     setFormErrors({});
@@ -135,34 +126,20 @@ const PaymentForm: React.FC = () => {
             />
           </LocalizationProvider>
           <CurrencyTextField
-            label="Amount"
-            variant="standard"
-            value={totalPyment}
             currencySymbol="$"
-            minimumValue="0"
-            outputFormat="string"
             decimalCharacter="."
-            digitGroupSeparator=","
-            onChange={(e) =>
-              setTotalPayment(e.target.value ? parseInt(e.target.value) : 0)
-            }
-          />
-          {/* <TextField
-            label=""
-            type="text"
-            inputProps={{
-              inputMode: "numeric",
-              pattern: "^[.0-9]*$",
-            }}
-            value={totalPyment}
-            onChange={(e) =>
-              setTotalPayment(e.target.value ? parseInt(e.target.value) : 0)
-            }
+            digitGroupSeparator=""
             error={!!formErrors.totalPago}
             helperText={formErrors.totalPago}
-            fullWidth
+            label="Total a pagar"
             margin="normal"
-          /> */}
+            minimumValue={0}
+            outputFormat="string"
+            value={totalPyment}
+            variant="outlined"
+            fullWidth
+            onChange={(e) => setTotalPayment(e.target.value)}
+          />
           <TextField
             label="Nombre del Pagador"
             fullWidth

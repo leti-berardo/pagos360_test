@@ -27,13 +27,14 @@ export default class BaseService {
 
   protected async get<T>(url: string, params?: any): Promise<T> {
     try {
-      const response = await this.axiosInstance.get<T>(url, {
-        params,
+      const response = await this.axiosInstance.post<T>(url, params, {
         headers: {
           Authorization: `Bearer ${this.ApiKey}`,
+          "Content-Type": "application/json",
         },
       });
-      return response.data;
+
+      return response;
     } catch (error) {
       throw error;
     }

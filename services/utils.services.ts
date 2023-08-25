@@ -15,9 +15,11 @@ export function getPaymentRequestPayload(
   paymentData: paymentData
 ): payloadPaymentRequest {
   return {
-    description: paymentData.concept,
-    first_due_date: paymentData.selectedDate,
-    first_total: paymentData.totalPyment,
-    payer_name: paymentData.payerName,
+    payment_request: {
+      description: paymentData.concept,
+      first_due_date: paymentData.selectedDate,
+      first_total: paymentData.totalPyment,
+      payer_name: paymentData.payerName,
+    },
   };
 }

@@ -1,8 +1,10 @@
 export interface payloadPaymentRequest {
-  description: string;
-  first_due_date: string;
-  first_total: number;
-  payer_name: string;
+  payment_request: {
+    description: string;
+    first_due_date: string;
+    first_total: number;
+    payer_name: string;
+  };
 }
 
 export interface paymentData {
