@@ -25,7 +25,7 @@ export default class BaseService {
     throw error;
   }
 
-  protected async get<T>(url: string, params?: any): Promise<T> {
+  protected async post<T>(url: string, params?: any): Promise<T> {
     try {
       const response = await this.axiosInstance.post<T>(url, params, {
         headers: {
@@ -34,36 +34,9 @@ export default class BaseService {
         },
       });
 
-      return response;
+      return response.data;
     } catch (error) {
       throw error;
     }
   }
-
-  //   protected async post<T>(url: string, data: any): Promise<T> {
-  //     try {
-  //       const response = await this.axiosInstance.post<T>(url, data);
-  //       return response.data;
-  //     } catch (error) {
-  //       throw error;
-  //     }
-  //   }
-
-  //   protected async put<T>(url: string, data: any): Promise<T> {
-  //     try {
-  //       const response = await this.axiosInstance.put<T>(url, data);
-  //       return response.data;
-  //     } catch (error) {
-  //       throw error;
-  //     }
-  //   }
-
-  //   protected async delete<T>(url: string): Promise<T> {
-  //     try {
-  //       const response = await this.axiosInstance.delete<T>(url);
-  //       return response.data;
-  //     } catch (error) {
-  //       throw error;
-  //     }
-  // }
 }

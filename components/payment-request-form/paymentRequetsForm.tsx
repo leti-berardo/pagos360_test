@@ -21,7 +21,7 @@ import { getPaymentRequestPayload } from "../../services/utils.services";
 import PaymentService from "../../services/payment.service";
 import styles from "./paymentRequestForms.module.scss";
 
-const PaymentForm: React.FC = () => {
+function PaymentForm({ onSuccess = (url) => {} }) {
   const [concept, setConcept] = useState("");
   const [email, setEmail] = useState("");
   const [formErrors, setFormErrors] = useState<any>({});
@@ -42,7 +42,7 @@ const PaymentForm: React.FC = () => {
     });
 
     paymentService.getPaymentRequest(payload).then((response) => {
-      console.log(response);
+      onSuccess(response.checkout_url);
     });
   };
 
@@ -158,6 +158,6 @@ const PaymentForm: React.FC = () => {
       </CardContent>
     </Card>
   );
-};
+}
 
 export default PaymentForm;
