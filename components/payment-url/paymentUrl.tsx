@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
+import { Button } from "@mui/material";
+import styles from "./paymentUrl.module.scss";
+
 function PaymentUrl({ url }) {
   const router = useRouter();
   const [copied, setCopied] = useState(false);
@@ -17,14 +20,11 @@ function PaymentUrl({ url }) {
       });
   };
 
-  const handleReturn = () => {
-    router.push("/");
-  };
-
   return (
-    <div>
-      <button onClick={handleCopy}>{copied ? "Copied!" : "Copy URL"}</button>
-      <button onClick={handleReturn}>Return</button>
+    <div className={styles.PaymentUrl}>
+      <Button centerRipple variant="outlined" onClick={handleCopy}>
+        {copied ? "Copied!" : "Copy URL"}
+      </Button>
     </div>
   );
 }

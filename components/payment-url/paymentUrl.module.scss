@@ -1,6 +1,21 @@
 .PaymentUrl {
-  border-radius: 15px;
   max-width: 20rem;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+  align-items: center;
+
+  Button {
+    color: black;
+    font-weight: 700;
+    border-color: black;
+    border-width: 2px;
+
+    &:hover {
+      background-color: gray;
+      opacity: 10;
+      border-color: black;
+      color: black;
+    }
+  }
 }
