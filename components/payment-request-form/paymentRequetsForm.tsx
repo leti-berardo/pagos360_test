@@ -41,9 +41,9 @@ function PaymentForm({ onSuccess = (url) => {} }) {
       selectedDate: format(new Date(selectedDate), "dd-MM-YYY"),
     });
 
-    paymentService.getPaymentRequest(payload).then((response) => {
-      onSuccess(response.checkout_url);
-    });
+    paymentService
+      .getPaymentRequest(payload)
+      .then((response) => onSuccess(response["checkout_url"]));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -86,7 +86,7 @@ function PaymentForm({ onSuccess = (url) => {} }) {
                 onChange={(e) => setSendByMail(e.target.checked)}
               />
             }
-            label="Send Payment Request by Mail"
+            label="Enviar url de pago por email"
           />
           {sendByMail && (
             <TextField
@@ -133,7 +133,7 @@ function PaymentForm({ onSuccess = (url) => {} }) {
             helperText={formErrors.totalPago}
             label="Total a pagar"
             margin="normal"
-            minimumValue={0}
+            minimumValue="0"
             outputFormat="string"
             value={totalPyment}
             variant="outlined"

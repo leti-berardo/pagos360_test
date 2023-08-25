@@ -7,4 +7,21 @@
   margin-right: auto;
   padding: 2rem;
   background-color: #b9b7bd;
+
+  &_ {
+    &title {
+      text-align: center;
+    }
+    &goBackButton {
+      text-align: center;
+      border-radius: 12px;
+      padding: 1rem;
+      width: 5rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: gray;
+      }
+    }
+  }
 }
